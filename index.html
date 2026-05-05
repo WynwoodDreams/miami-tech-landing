@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tech Portfolio / 26 — Job Stats Miami</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:        #05090C;
+    --bg-2:      #0A1418;
+    --panel:     #0B141A;
+    --panel-2:   #0E1A21;
+    --glass:     rgba(255,255,255,0.025);
+    --line:      rgba(255,255,255,0.06);
+    --line-2:    rgba(255,255,255,0.10);
+    --line-3:    rgba(0,255,133,0.18);
+    --ink:       #E6F1F3;
+    --ink-dim:   #B7C5CB;
+    --muted:     #7A8A90;
+    --dim:       #4B5A60;
+    --green:     #00FF85;
+    --green-2:   #00E676;
+    --teal:      #00C2A8;
+    --green-soft: rgba(0,255,133,0.10);
+    --green-glow: rgba(0,255,133,0.45);
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html, body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family:'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    font-feature-settings: "ss01","cv11";
+    letter-spacing: -0.005em;
+  }
+
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:
+      radial-gradient(700px 500px at 10% -10%, rgba(0,194,168,0.12), transparent 60%),
+      radial-gradient(900px 600px at 110% 110%, rgba(0,255,133,0.08), transparent 60%),
+      radial-gradient(600px 400px at 60% 50%, rgba(0,255,133,0.025), transparent 70%);
+  }
+  body::after{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 50%, transparent 100%);
+  }
+
+  .page{
+    position:relative; z-index:1;
+    width: 1440px; max-width: 100%;
+    margin: 0 auto;
+    padding: 18px 28px 0;
+  }
+
+  /* ---------- TOPBAR ---------- */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 10px 14px;
+    border:1px solid var(--line);
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.005));
+    backdrop-filter: blur(8px);
+  }
+  .topbar-l{ display:flex; align-items:center; gap: 24px; }
+  .brand{
+    font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:.18em;
+    color: var(--ink); font-weight:600; text-transform:uppercase;
+    display:flex; align-items:center; gap:10px;
+  }
+  .brand .sq{
+    width:18px; height:18px; border-radius: 4px;
+    background: linear-gradient(135deg, var(--green) 0%, var(--teal) 100%);
+    box-shadow: 0 0 12px var(--green-glow), inset 0 0 6px rgba(255,255,255,0.4);
+  }
+  .brand b{ color: var(--green); font-weight:600; }
+  .pill{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono', monospace; font-size:10.5px; letter-spacing:.18em;
+    color:var(--ink-dim); text-transform:uppercase;
+    padding: 6px 11px;
+    border:1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255,255,255,0.02);
+  }
+  .dot{ width:6px; height:6px; border-radius:50%; background: var(--green);
+    box-shadow: 0 0 0 3px rgba(0,255,133,.10), 0 0 8px var(--green-glow);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse{ 0%,100%{ opacity:1 } 50%{ opacity:.55 } }
+
+  .nav{ display:flex; gap:4px; padding: 3px; border:1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,0.015); }
+  .nav a{
+    font-family:'JetBrains Mono', monospace; font-size:10.5px; letter-spacing:.18em;
+    color: var(--muted); text-decoration:none;
+    padding: 7px 14px; border-radius: 999px; text-transform:uppercase;
+  }
+  .nav a.active{ color:var(--ink); background: rgba(0,255,133,0.08); box-shadow: inset 0 0 0 1px var(--line-3); }
+
+  .topbar-r{ display:flex; align-items:center; gap: 10px; }
+  .clock{
+    font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:.12em; color: var(--muted);
+    padding: 7px 12px; border:1px solid var(--line); border-radius: 8px; background: rgba(255,255,255,0.015);
+  }
+  .clock b{ color: var(--ink); font-weight:500; }
+  .live{
+    display:inline-flex; align-items:center; gap:9px;
+    border:1px solid var(--line-3); border-radius: 8px; padding: 7px 12px;
+    font-family:'JetBrains Mono', monospace; font-size:10.5px; letter-spacing:.18em; color: var(--green);
+    background: rgba(0,255,133,0.04);
+    box-shadow: 0 0 0 1px rgba(0,255,133,0.04), 0 0 18px rgba(0,255,133,0.08);
+    text-transform:uppercase;
+  }
+
+  /* ---------- TICKER ---------- */
+  .ticker{
+    margin-top: 10px;
+    border:1px solid var(--line);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.015);
+    overflow:hidden; height: 34px; display:flex; align-items:center;
+    position:relative;
+  }
+  .ticker::before, .ticker::after{
+    content:""; position:absolute; top:0; bottom:0; width:80px; z-index:2; pointer-events:none;
+  }
+  .ticker::before{ left:0; background: linear-gradient(90deg, var(--bg), transparent); }
+  .ticker::after{ right:0; background: linear-gradient(-90deg, var(--bg), transparent); }
+  .ticker-track{
+    display:flex; gap: 48px; white-space:nowrap; padding-left: 24px;
+    animation: tick 55s linear infinite;
+    font-family:'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing:.16em; color: var(--muted);
+    text-transform:uppercase;
+  }
+  .ticker-track span b{ color: var(--green); margin-right:8px; font-weight:600; }
+  .ticker-track span i{ color: var(--teal); font-style:normal; }
+  @keyframes tick{ from{ transform: translateX(0);} to{ transform: translateX(-50%);} }
+
+  /* ---------- MAIN ---------- */
+  .main{
+    display:grid; grid-template-columns: 460px 1fr; gap: 18px;
+    padding: 18px 0 18px;
+  }
+
+  /* ---------- LEFT ---------- */
+  .left-panel{
+    border:1px solid var(--line);
+    border-radius: 16px;
+    background:
+      radial-gradient(120% 80% at 0% 0%, rgba(0,255,133,0.04), transparent 50%),
+      linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
+    padding: 28px 28px 24px;
+    position:relative; overflow:hidden;
+  }
+  .left-panel::before{
+    content:""; position:absolute; top:-1px; left:24px; right:24px; height:1px;
+    background: linear-gradient(90deg, transparent, var(--green-glow), transparent);
+  }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:12px;
+    font-family:'JetBrains Mono', monospace; font-size:10.5px; letter-spacing:.22em; color:var(--green);
+    text-transform:uppercase;
+    margin-bottom: 22px;
+  }
+  .eyebrow .bar{ width:24px; height:1px; background: var(--green); box-shadow: 0 0 6px var(--green-glow); }
+
+  h1.headline{
+    font-family:'Inter', sans-serif; font-weight:700; line-height:.96;
+    font-size: 64px; letter-spacing:-0.04em; color: var(--ink);
+  }
+  h1.headline .accent{
+    color: var(--green);
+    font-weight:600;
+    text-shadow: 0 0 24px rgba(0,255,133,0.45);
+  }
+  h1.headline .blink{
+    display:inline-block; width:.5ch; background: var(--green); height:.86em;
+    margin-left:.06em; vertical-align:-0.06em;
+    box-shadow: 0 0 12px var(--green-glow);
+    animation: blink 1.1s steps(2, end) infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .lede{
+    margin-top: 22px; max-width: 360px;
+    font-size: 14.5px; line-height: 1.55; color: var(--ink-dim); font-weight: 400;
+  }
+
+  .meta{
+    margin-top: 26px;
+    display:flex; gap: 8px; flex-wrap:wrap;
+  }
+  .chip{
+    display:inline-flex; align-items:center; gap:8px;
+    border:1px solid var(--line);
+    background: rgba(255,255,255,0.02);
+    border-radius: 6px; padding: 6px 10px;
+    font-family:'JetBrains Mono', monospace; font-size:10px; letter-spacing:.16em; color: var(--ink-dim);
+    text-transform:uppercase;
+  }
+  .chip svg{ width:11px; height:11px; }
+  .chip.g{ color: var(--green); border-color: var(--line-3); background: rgba(0,255,133,0.04); }
+
+  .stats{
+    margin-top: 26px;
+    border:1px solid var(--line);
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.005));
+    overflow:hidden;
+  }
+  .stats-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 10px 14px; border-bottom:1px solid var(--line);
+    font-family:'JetBrains Mono', monospace; font-size:10px; letter-spacing:.2em; color: var(--muted); text-transform:uppercase;
+    background: rgba(255,255,255,0.015);
+  }
+  .stats-head b{ color: var(--ink); font-weight:500; }
+  .stats-grid{ display:grid; grid-template-columns: 1fr 1fr; }
+  .stat{
+    padding: 16px 18px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    display:flex; flex-direction:column; gap: 6px;
+    position:relative;
+  }
+  .stat:nth-child(2n){ border-right:none; }
+  .stat:nth-last-child(-n+2){ border-bottom:none; }
+  .stat .label{
+    display:flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono', monospace; font-size:10px; letter-spacing:.18em; color: var(--muted);
+    text-transform:uppercase;
+  }
+  .stat .label svg{ width:11px; height:11px; color: var(--green); }
+  .stat .num{
+    font-family:'Inter', sans-serif; font-weight:700; font-size: 28px; letter-spacing:-0.03em; color: var(--ink);
+    display:flex; align-items:baseline; gap: 8px;
+  }
+  .stat .num small{
+    font-family:'JetBrains Mono', monospace; font-size: 10px; color: var(--green); letter-spacing:.05em; font-weight:500;
+  }
+  .stat .sub{ font-size: 11.5px; color: var(--muted); }
+
+  .ctas{ margin-top: 18px; display:flex; gap: 10px; }
+  .btn{
+    flex: 1; display:inline-flex; align-items:center; justify-content:space-between; gap: 10px;
+    padding: 12px 14px; border-radius: 10px;
+    font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    text-decoration:none; cursor:pointer;
+    transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  .btn.primary{
+    color: #02110A;
+    background: linear-gradient(180deg, var(--green) 0%, var(--green-2) 100%);
+    border: 1px solid rgba(0,255,133,0.5);
+    box-shadow: 0 0 0 1px rgba(0,255,133,0.25), 0 8px 24px -8px rgba(0,255,133,0.6), inset 0 1px 0 rgba(255,255,255,0.4);
+    font-weight:600;
+  }
+  .btn.primary:hover{ transform: translateY(-1px); box-shadow: 0 0 0 1px rgba(0,255,133,0.35), 0 12px 32px -8px rgba(0,255,133,0.7), inset 0 1px 0 rgba(255,255,255,0.4); }
+  .btn.ghost{
+    color: var(--ink); border:1px solid var(--line-2); background: rgba(255,255,255,0.02);
+  }
+  .btn.ghost:hover{ border-color: var(--line-3); background: rgba(0,255,133,0.04); }
+  .btn .arr{ width:14px; height:14px; }
+
+  .console{
+    margin-top: 18px;
+    border:1px solid var(--line);
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+    padding: 12px 14px;
+    font-family:'JetBrains Mono', monospace; font-size: 10.5px; line-height: 1.7; color: var(--muted);
+  }
+  .console .row{ display:flex; gap: 10px; }
+  .console .ts{ color: var(--dim); }
+  .console .lvl{ color: var(--teal); width: 38px; }
+  .console .lvl.ok{ color: var(--green); }
+  .console .lvl.warn{ color: #FFC857; }
+  .console .msg b{ color: var(--ink); font-weight:500; }
+  .console .row + .row{ margin-top:2px; }
+
+  /* ---------- RIGHT — DASHBOARD ---------- */
+  .dash{ display:flex; flex-direction:column; gap: 12px; }
+  .dash-bar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 10px 14px;
+    border:1px solid var(--line); border-radius: 12px;
+    background: rgba(255,255,255,0.015);
+  }
+  .dash-bar .seg{
+    display:inline-flex; gap:0; padding: 3px;
+    border:1px solid var(--line); border-radius: 8px; background: rgba(0,0,0,0.25);
+  }
+  .dash-bar .seg button{
+    border:0; background: transparent; cursor:pointer;
+    font-family:'JetBrains Mono', monospace; font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+    color: var(--muted); padding: 6px 11px; border-radius: 6px;
+  }
+  .dash-bar .seg button.on{ color: var(--ink); background: rgba(255,255,255,0.04); box-shadow: inset 0 0 0 1px var(--line-2); }
+  .dash-bar .seg button.on.g{ color: var(--green); background: rgba(0,255,133,0.06); box-shadow: inset 0 0 0 1px var(--line-3); }
+  .dash-bar .crumbs{
+    display:flex; align-items:center; gap: 12px;
+    font-family:'JetBrains Mono', monospace; font-size:10.5px; letter-spacing:.16em; color: var(--muted); text-transform:uppercase;
+  }
+  .dash-bar .crumbs b{ color: var(--ink); font-weight:500; }
+  .dash-bar .crumbs .slash{ color: var(--dim); }
+  .dash-bar .meta-r{ display:flex; align-items:center; gap:14px; }
+  .dash-bar .legend{ display:flex; align-items:center; gap:10px; font-family:'JetBrains Mono', monospace; font-size:10px; letter-spacing:.16em; color: var(--muted); text-transform:uppercase; }
+  .lg-d{ width:6px; height:6px; border-radius:50%; }
+  .lg-d.g{ background: var(--green); box-shadow:0 0 6px var(--green-glow); }
+  .lg-d.t{ background: var(--teal); box-shadow:0 0 6px rgba(0,194,168,.45); }
+  .lg-d.m{ background: var(--muted); }
+
+  .grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+  .card{
+    position:relative; overflow:hidden;
+    border:1px solid var(--line);
+    border-radius: 14px;
+    background:
+      radial-gradient(140% 80% at 100% 0%, rgba(0,194,168,0.05), transparent 60%),
+      linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
+    padding: 16px 16px 14px;
+    min-height: 230px;
+    display:flex; flex-direction:column;
+    transition: border-color .2s ease, transform .15s ease, box-shadow .2s ease;
+  }
+  .card::before{
+    content:""; position:absolute; inset:0; border-radius: 14px; pointer-events:none;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+  .card:hover{ border-color: var(--line-3); box-shadow: 0 0 0 1px var(--line-3), 0 12px 30px -16px rgba(0,255,133,0.25); }
+
+  .card-top{ display:flex; align-items:center; justify-content:space-between; gap: 10px; }
+  .card-top .tag{
+    font-family:'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing:.22em;
+    color: var(--green); text-transform:uppercase;
+    display:inline-flex; align-items:center; gap: 6px;
+  }
+  .card-top .tag .pip{ width:5px; height:5px; border-radius:1px; background: var(--green); box-shadow:0 0 6px var(--green-glow); }
+  .id{ font-family:'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing:.16em; color: var(--dim); }
+
+  .card .viz{
+    margin-top: 12px; height: 88px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.15));
+    border:1px solid var(--line);
+    overflow:hidden; position:relative;
+  }
+  .card .viz svg{ display:block; width:100%; height:100%; }
+
+  .card h3{
+    margin-top: 12px;
+    font-family:'Inter', sans-serif; font-weight:600; font-size: 16.5px; letter-spacing:-0.015em; color: var(--ink);
+    line-height:1.2;
+  }
+  .card p{ margin-top: 6px; font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+  .card-foot{
+    margin-top: 14px; padding-top: 12px;
+    display:flex; align-items:center; justify-content:space-between; gap: 10px;
+    border-top: 1px dashed var(--line);
+  }
+  .stack{
+    font-family:'JetBrains Mono', monospace; font-size:10px; letter-spacing:.06em; color: var(--ink-dim);
+    display:flex; gap:6px; align-items:center; flex-wrap:wrap;
+  }
+  .stack .sep{ color: var(--dim); }
+  .status{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'JetBrains Mono', monospace; font-size:9.5px; letter-spacing:.18em; color: var(--green);
+    text-transform:uppercase;
+  }
+  .status .ds{ width:5px; height:5px; border-radius:50%; background: var(--green); box-shadow: 0 0 0 3px rgba(0,255,133,.10), 0 0 6px var(--green-glow); }
+  .status.t{ color: var(--teal); }
+  .status.t .ds{ background: var(--teal); box-shadow: 0 0 0 3px rgba(0,194,168,.10), 0 0 6px rgba(0,194,168,0.45); }
+  .status.m{ color: var(--muted); }
+  .status.m .ds{ background: var(--muted); box-shadow:none; }
+
+  /* ---------- FOOTER ---------- */
+  .footer{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 12px 16px;
+    border:1px solid var(--line);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.015);
+    margin-bottom: 22px;
+  }
+  .foot-l{ display:flex; align-items:center; gap: 24px; }
+  .foot-l .lab{ font-family:'JetBrains Mono', monospace; font-size:10px; letter-spacing:.22em; color:var(--dim); text-transform:uppercase; }
+  .foot-item{ display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono', monospace; font-size:10.5px; letter-spacing:.16em; color: var(--ink-dim); text-transform:uppercase; }
+  .foot-item svg{ width:13px; height:13px; color: var(--green); }
+  .foot-r{ display:flex; align-items:center; gap: 14px; }
+  .foot-r .tag2{ text-align:right; font-family:'JetBrains Mono', monospace; font-size:10.5px; letter-spacing:.18em; color: var(--muted); line-height:1.7; text-transform:uppercase; }
+  .foot-r .tag2 b{ color: var(--ink); font-weight:600; display:block; }
+  .foot-r .arr{
+    width:36px; height:36px; border-radius:8px; border:1px solid var(--line-3); background: rgba(0,255,133,0.04);
+    display:grid; place-items:center; color: var(--green); text-decoration:none;
+  }
+
+  .pulseLine{ animation: linePulse 4s ease-in-out infinite; }
+  @keyframes linePulse{ 0%,100%{ filter: drop-shadow(0 0 2px rgba(0,255,133,0.4)); } 50%{ filter: drop-shadow(0 0 8px rgba(0,255,133,0.9)); } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-l">
+      <div class="brand"><span class="sq"></span> TECH PORTFOLIO <b>/26</b></div>
+      <div class="pill"><span class="dot"></span> JOB STATS · MIA</div>
+      <nav class="nav">
+        <a href="#" class="active">PROJECTS</a>
+        <a href="#">TRACKS</a>
+        <a href="#">PLACEMENTS</a>
+        <a href="app.html">GUIDE</a>
+      </nav>
+    </div>
+    <div class="topbar-r">
+      <div class="clock" id="clock">SYS · <b>--:--:--</b> EST</div>
+      <div class="live"><span class="dot"></span> LIVE · 8 TRACKS ONLINE</div>
+    </div>
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <span><b>HIRED</b> Cloud Engineer · <i>CARNIVAL CORP</i> · MIA</span>
+      <span><b>PLACED</b> S. Gonzalez → <i>ROYAL CARIBBEAN</i> · Data Analyst</span>
+      <span><b>SHIPPED</b> 3 multi-agent projects this week</span>
+      <span><b>OPEN</b> <i>NORWEGIAN CRUISE</i> · Junior ML Engineer</span>
+      <span><b>COHORT 26</b> applications close in 14d</span>
+      <span><b>DEMO</b> RAG Knowledge Base live at <i>:8080</i></span>
+      <span><b>HIRED</b> Cyber Analyst · <i>LENNAR CORP</i> · MIA</span>
+      <span><b>OPEN</b> <i>CHEWY HQ</i> · Data Engineer · Remote-friendly</span>
+      <span><b>HIRED</b> Cloud Engineer · <i>CARNIVAL CORP</i> · MIA</span>
+      <span><b>PLACED</b> S. Gonzalez → <i>ROYAL CARIBBEAN</i> · Data Analyst</span>
+      <span><b>SHIPPED</b> 3 multi-agent projects this week</span>
+      <span><b>OPEN</b> <i>NORWEGIAN CRUISE</i> · Junior ML Engineer</span>
+      <span><b>COHORT 26</b> applications close in 14d</span>
+      <span><b>DEMO</b> RAG Knowledge Base live at <i>:8080</i></span>
+      <span><b>HIRED</b> Cyber Analyst · <i>LENNAR CORP</i> · MIA</span>
+      <span><b>OPEN</b> <i>CHEWY HQ</i> · Data Engineer · Remote-friendly</span>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- LEFT -->
+    <div class="left-panel">
+      <div class="eyebrow"><span class="bar"></span> THE 2026 BUILD PATH · v2.6.1</div>
+      <h1 class="headline">
+        Students build.<br>
+        Real <span class="accent">systems.</span><br>
+        Real outcomes.<span class="blink"></span>
+      </h1>
+      <p class="lede">
+        Project-based learning that turns students into builders. Real codebases,
+        real data, and real placements across Miami's tech ecosystem.
+      </p>
+
+      <div class="meta">
+        <div class="chip g">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>
+          ALL SYSTEMS NORMAL
+        </div>
+        <div class="chip">24 PROJECTS ACTIVE</div>
+        <div class="chip">REGION · US-EAST-1 / MIA</div>
+      </div>
+
+      <div class="stats">
+        <div class="stats-head">
+          <span><b>COHORT METRICS</b> · LAST 90 DAYS</span>
+          <span>↗ TRENDING</span>
+        </div>
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
+              PROJECTS SHIPPED
+            </div>
+            <div class="num">24 <small>+18%</small></div>
+            <div class="sub">across 8 tracks</div>
+          </div>
+          <div class="stat">
+            <div class="label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="9" r="3.5"/><path d="M5 20c1-3.5 4-5 7-5s6 1.5 7 5"/></svg>
+              STUDENTS PLACED
+            </div>
+            <div class="num">42 <small>+9%</small></div>
+            <div class="sub">avg time-to-hire 47d</div>
+          </div>
+          <div class="stat">
+            <div class="label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10l8-5 8 5v10"/><path d="M9 20v-6h6v6"/></svg>
+              COMPANIES HIRING
+            </div>
+            <div class="num">23 <small>+4</small></div>
+            <div class="sub">active partners</div>
+          </div>
+          <div class="stat">
+            <div class="label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 7h14M5 12h14M5 17h10"/></svg>
+              CAREER TRACKS
+            </div>
+            <div class="num">8 <small>active</small></div>
+            <div class="sub">AI · Data · Cloud · Cyber</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ctas">
+        <a class="btn primary" href="app.html">
+          <span>EXPLORE THE BUILD PATH</span>
+          <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a class="btn ghost" href="#">
+          <span>VIEW ALL TRACKS</span>
+          <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+
+      <div class="console">
+        <div class="row"><span class="ts">13:42:01</span><span class="lvl ok">[ OK ]</span><span class="msg">build <b>multi-agent-rag</b> deployed → live</span></div>
+        <div class="row"><span class="ts">13:41:46</span><span class="lvl">[INFO]</span><span class="msg">resume-engine match score <b>94%</b></span></div>
+        <div class="row"><span class="ts">13:41:12</span><span class="lvl ok">[ OK ]</span><span class="msg">J. Rivera → offer accepted · <b>ROYAL CARIBBEAN</b></span></div>
+      </div>
+    </div>
+
+    <!-- RIGHT — DASHBOARD -->
+    <div class="dash">
+
+      <div class="dash-bar">
+        <div class="crumbs">
+          <span>WORKSPACE</span><span class="slash">/</span><span>COHORT-26</span><span class="slash">/</span><b>PROJECTS</b>
+          <span class="slash">·</span><span style="color:var(--green)">9 FEATURED</span>
+        </div>
+        <div class="meta-r">
+          <div class="legend"><span class="lg-d g"></span> LIVE <span class="lg-d t"></span> BUILDING <span class="lg-d m"></span> QUEUED</div>
+          <div class="seg">
+            <button class="on g">ALL · 9</button>
+            <button>AI</button>
+            <button>DATA</button>
+            <button>CLOUD</button>
+            <button>CYBER</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+
+        <!-- 1: AI Engineer — Multi-Agent Research -->
+        <div class="card">
+          <div class="card-top">
+            <div class="tag"><span class="pip"></span> AI · AGENTS</div>
+            <div class="id">PRJ_001</div>
+          </div>
+          <div class="viz">
+            <svg viewBox="0 0 360 88" preserveAspectRatio="xMidYMid meet">
+              <rect width="360" height="88" fill="rgba(0,0,0,0.2)"/>
+              <circle cx="180" cy="44" r="13" fill="rgba(0,255,133,0.08)" stroke="#00FF85" stroke-width="1.2"/>
+              <text x="180" y="47" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#00FF85" font-weight="600">ORCH</text>
+              <circle cx="76" cy="22" r="10" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.14)"/>
+              <text x="76" y="25" text-anchor="middle" font-family="JetBrains Mono" font-size="5" fill="#7A8A90">RESEARCH</text>
+              <circle cx="284" cy="22" r="10" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.14)"/>
+              <text x="284" y="25" text-anchor="middle" font-family="JetBrains Mono" font-size="5" fill="#7A8A90">WRITER</text>
+              <circle cx="76" cy="66" r="10" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.14)"/>
+              <text x="76" y="69" text-anchor="middle" font-family="JetBrains Mono" font-size="5" fill="#7A8A90">ANALYST</text>
+              <circle cx="284" cy="66" r="10" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.14)"/>
+              <text x="284" y="69" text-anchor="middle" font-family="JetBrains Mono" font-size="5" fill="#7A8A90">PLANNER</text>
+              <line x1="167" y1="37" x2="86" y2="26" stroke="#00FF85" stroke-width="0.8" opacity="0.4"/>
+              <line x1="193" y1="37" x2="274" y2="26" stroke="#00FF85" stroke-width="0.8" opacity="0.4"/>
+              <line x1="167" y1="51" x2="86" y2="62" stroke="#00FF85" stroke-width="0.8" opacity="0.4"/>
+              <line x1="193" y1="51" x2="274" y2="62" stroke="#00FF85" stroke-width="0.8" opacity="0.4"/>
+              <circle cx="180" cy="44" r="30" fill="none" stroke="rgba(0,255,133,0.07)" stroke-width="1" stroke-dasharray="4 4"/>
+              <text x="14" y="82" font-family="JetBrains Mono" font-size="7.5" fill="#7A8A90">4 AGENTS · SUPERVISOR PATTERN · CREWAI</text>
+            </svg>
+          </div>
+          <h3>Multi-Agent Research System</h3>
+          <p>Autonomous agents collaborate to research, plan, and generate structured reports.</p>
+          <div class="card-foot">
+            <div class="stack">CREWAI <span class="sep">·</span> LANGGRAPH <span class="sep">·</span> PYTHON</div>
+            <div class="status"><span class="ds"></span> LIVE</div>
+          </div>
+        </div>
+
+        <!-- 2: Data Analyst — Customer Intelligence -->
+        <div class="card">
+          <div class="card-top">
+            <div class="tag"><span class="pip"></span> DATA · ML</div>
+            <div class="id">PRJ_002</div>
+          </div>
+          <div class="viz">
+            <svg viewBox="0 0 360 88">
+              <rect width="360" height="88" fill="rgba(0,0,0,0.2)"/>
+              <g stroke="rgba(255,255,255,0.05)" stroke-width=".5">
+                <line x1="40" x2="310" y1="18" y2="18"/>
+                <line x1="40" x2="310" y1="38" y2="38"/>
+                <line x1="40" x2="310" y1="58" y2="58"/>
+              </g>
+              <defs>
+                <linearGradient id="bg2g" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#00FF85" stop-opacity=".65"/>
+                  <stop offset="1" stop-color="#00FF85" stop-opacity=".15"/>
+                </linearGradient>
+                <linearGradient id="bg2t" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#00C2A8" stop-opacity=".65"/>
+                  <stop offset="1" stop-color="#00C2A8" stop-opacity=".15"/>
+                </linearGradient>
+              </defs>
+              <rect x="50"  y="24" width="30" height="52" rx="2" fill="url(#bg2g)"/>
+              <rect x="92"  y="36" width="30" height="40" rx="2" fill="url(#bg2g)"/>
+              <rect x="134" y="44" width="30" height="32" rx="2" fill="url(#bg2t)"/>
+              <rect x="176" y="18" width="30" height="58" rx="2" fill="url(#bg2g)"/>
+              <rect x="218" y="32" width="30" height="44" rx="2" fill="url(#bg2t)"/>
+              <g font-family="JetBrains Mono" font-size="6.5" fill="#7A8A90" text-anchor="middle">
+                <text x="65"  y="83">CHAMP</text>
+                <text x="107" y="83">LOYAL</text>
+                <text x="149" y="83">AT RISK</text>
+                <text x="191" y="83">POTEN</text>
+                <text x="233" y="83">LOST</text>
+              </g>
+              <rect x="268" y="10" width="78" height="64" rx="5" fill="rgba(0,0,0,0.3)" stroke="rgba(255,255,255,0.05)"/>
+              <g font-family="JetBrains Mono" font-size="7.5">
+                <text x="276" y="26" fill="#7A8A90">MODEL</text>  <text x="340" y="26" text-anchor="end" fill="#00FF85">RFM</text>
+                <text x="276" y="42" fill="#7A8A90">SEGS</text>   <text x="340" y="42" text-anchor="end" fill="#E6F1F3">5</text>
+                <text x="276" y="58" fill="#7A8A90">CUST</text>   <text x="340" y="58" text-anchor="end" fill="#00FF85">12K</text>
+              </g>
+            </svg>
+          </div>
+          <h3>Customer Intelligence Dashboard</h3>
+          <p>RFM segmentation engine with AI-powered marketing recommendation layer.</p>
+          <div class="card-foot">
+            <div class="stack">PYTHON <span class="sep">·</span> STREAMLIT <span class="sep">·</span> OPENAI</div>
+            <div class="status"><span class="ds"></span> LIVE</div>
+          </div>
+        </div>
+
+        <!-- 3: Cybersecurity — Prompt Injection Detector -->
+        <div class="card">
+          <div class="card-top">
+            <div class="tag"><span class="pip"></span> CYBER · AI</div>
+            <div class="id">PRJ_003</div>
+          </div>
+          <div class="viz">
+            <svg viewBox="0 0 360 88">
+              <rect width="360" height="88" fill="rgba(0,0,0,0.25)"/>
+              <rect x="144" y="18" width="72" height="52" rx="7" fill="rgba(0,255,133,0.06)" stroke="#00FF85" stroke-width="1" stroke-opacity=".5"/>
+              <text x="180" y="41" text-anchor="middle" font-family="JetBrains Mono" font-size="6" fill="#00FF85" font-weight="600">GATEWAY</text>
+              <text x="180" y="52" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#7A8A90">DETECTOR</text>
+              <rect x="14" y="13" width="56" height="11" rx="2" fill="rgba(255,80,80,0.12)" stroke="rgba(255,80,80,0.5)" stroke-width=".8"/>
+              <text x="42" y="21" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#FF5050">INJECT</text>
+              <line x1="70" y1="19" x2="144" y2="34" stroke="rgba(255,80,80,0.4)" stroke-width="0.8" stroke-dasharray="3 2"/>
+              <rect x="14" y="30" width="56" height="11" rx="2" fill="rgba(255,80,80,0.12)" stroke="rgba(255,80,80,0.5)" stroke-width=".8"/>
+              <text x="42" y="38" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#FF5050">JAILBREAK</text>
+              <line x1="70" y1="36" x2="144" y2="44" stroke="rgba(255,80,80,0.4)" stroke-width="0.8" stroke-dasharray="3 2"/>
+              <rect x="14" y="47" width="56" height="11" rx="2" fill="rgba(255,80,80,0.08)" stroke="rgba(255,80,80,0.35)" stroke-width=".8"/>
+              <text x="42" y="55" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#FF5050">PROMPT</text>
+              <line x1="70" y1="53" x2="144" y2="54" stroke="rgba(255,80,80,0.35)" stroke-width="0.8" stroke-dasharray="3 2"/>
+              <rect x="228" y="26" width="56" height="11" rx="2" fill="rgba(0,255,133,0.07)" stroke="#00FF85" stroke-width=".8" stroke-opacity=".5"/>
+              <text x="256" y="34" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#00FF85">CLEAN</text>
+              <line x1="216" y1="38" x2="228" y2="32" stroke="#00FF85" stroke-width="0.8" opacity="0.5"/>
+              <rect x="296" y="12" width="54" height="28" rx="4" fill="rgba(0,255,133,0.04)" stroke="rgba(0,255,133,0.2)"/>
+              <text x="323" y="24" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#00FF85" font-weight="600">99.2%</text>
+              <text x="323" y="35" text-anchor="middle" font-family="JetBrains Mono" font-size="6" fill="#7A8A90">DETECT</text>
+              <text x="14" y="78" font-family="JetBrains Mono" font-size="7.5" fill="#7A8A90">REAL-TIME LLM SECURITY GATEWAY · FASTAPI</text>
+            </svg>
+          </div>
+          <h3>Prompt Injection Detector</h3>
+          <p>Real-time gateway that identifies and blocks LLM jailbreak and injection attempts.</p>
+          <div class="card-foot">
+            <div class="stack">PYTHON <span class="sep">·</span> LANGCHAIN <span class="sep">·</span> FASTAPI</div>
+            <div class="status"><span class="ds"></span> LIVE</div>
+          </div>
+        </div>
+
+        <!-- 4: Cloud Computing — RAG Knowledge Base -->
+        <div class="card">
+          <div class="card-top">
+            <div class="tag"><span class="pip"></span> CLOUD · RAG</div>
+            <div class="id">PRJ_004</div>
+          </div>
+          <div class="viz">
+            <svg viewBox="0 0 360 88">
+              <rect width="360" height="88" fill="rgba(0,0,0,0.2)"/>
+              <g fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.12)" stroke-width=".8">
+                <rect x="10" y="16" width="28" height="36" rx="3"/>
+                <rect x="14" y="22" width="20" height="2" rx="1" fill="rgba(255,255,255,0.15)" stroke="none"/>
+                <rect x="14" y="27" width="16" height="2" rx="1" fill="rgba(255,255,255,0.1)" stroke="none"/>
+                <rect x="14" y="32" width="18" height="2" rx="1" fill="rgba(255,255,255,0.1)" stroke="none"/>
+              </g>
+              <text x="24" y="60" text-anchor="middle" font-family="JetBrains Mono" font-size="6" fill="#7A8A90">DOCS</text>
+              <path d="M40 34 L66 34" stroke="#00FF85" stroke-width="0.9" fill="none" opacity="0.5" stroke-linecap="round"/>
+              <circle cx="71" cy="34" r="2.2" fill="#00FF85" opacity="0.5"/>
+              <rect x="74" y="20" width="62" height="28" rx="5" fill="rgba(0,194,168,0.06)" stroke="#00C2A8" stroke-width=".8" stroke-opacity=".6"/>
+              <text x="105" y="31" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#00C2A8" font-weight="600">VECTOR DB</text>
+              <text x="105" y="41" text-anchor="middle" font-family="JetBrains Mono" font-size="5" fill="#7A8A90">PINECONE</text>
+              <path d="M138 34 L160 34" stroke="#00C2A8" stroke-width="0.9" fill="none" opacity="0.5" stroke-linecap="round"/>
+              <circle cx="165" cy="34" r="2.2" fill="#00C2A8" opacity="0.5"/>
+              <rect x="168" y="20" width="58" height="28" rx="5" fill="rgba(0,255,133,0.06)" stroke="#00FF85" stroke-width=".8" stroke-opacity=".6"/>
+              <text x="197" y="31" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#00FF85" font-weight="600">CLAUDE 3.5</text>
+              <text x="197" y="41" text-anchor="middle" font-family="JetBrains Mono" font-size="5" fill="#7A8A90">LLM</text>
+              <path d="M228 34 L250 34" stroke="#00FF85" stroke-width="0.9" fill="none" opacity="0.5" stroke-linecap="round"/>
+              <circle cx="255" cy="34" r="2.2" fill="#00FF85" opacity="0.5"/>
+              <rect x="258" y="12" width="88" height="52" rx="5" fill="rgba(255,255,255,0.015)" stroke="rgba(255,255,255,0.08)"/>
+              <rect x="264" y="18" width="70" height="3" rx="1.5" fill="rgba(255,255,255,0.2)"/>
+              <rect x="264" y="24" width="56" height="3" rx="1.5" fill="rgba(255,255,255,0.12)"/>
+              <rect x="264" y="30" width="64" height="3" rx="1.5" fill="rgba(255,255,255,0.12)"/>
+              <rect x="264" y="38" width="76" height="18" rx="2" fill="rgba(0,255,133,0.07)" stroke="#00FF85" stroke-opacity=".4"/>
+              <text x="268" y="46" font-family="JetBrains Mono" font-size="5.5" fill="#00FF85">[SOURCE p.14]</text>
+              <text x="268" y="53" font-family="JetBrains Mono" font-size="5" fill="#7A8A90">CITED ANSWER</text>
+              <text x="10" y="76" font-family="JetBrains Mono" font-size="7.5" fill="#7A8A90">VECTOR SEARCH · CITATION ENGINE · REACT UI</text>
+            </svg>
+          </div>
+          <h3>RAG Knowledge Base</h3>
+          <p>Upload technical docs, ask questions, and receive cited answers from a vector DB.</p>
+          <div class="card-foot">
+            <div class="stack">LANGCHAIN <span class="sep">·</span> PINECONE <span class="sep">·</span> REACT</div>
+            <div class="status"><span class="ds"></span> LIVE</div>
+          </div>
+        </div>
+
+        <!-- 5: Software Engineer — URL Shortener -->
+        <div class="card">
+          <div class="card-top">
+            <div class="tag"><span class="pip"></span> SWE · BACKEND</div>
+            <div class="id">PRJ_005</div>
+          </div>
+          <div class="viz">
+            <svg viewBox="0 0 360 88" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="g5t" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#00C2A8" stop-opacity=".5"/>
+                  <stop offset="1" stop-color="#00C2A8" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <g stroke="rgba(255,255,255,0.05)" stroke-width=".5">
+                <line x1="0" x2="248" y1="20" y2="20"/>
+                <line x1="0" x2="248" y1="40" y2="40"/>
+                <line x1="0" x2="248" y1="60" y2="60"/>
+              </g>
+              <path d="M0 54 L28 50 L56 56 L84 46 L112 52 L140 32 L168 38 L196 24 L224 28 L248 22 L248 88 L0 88 Z" fill="url(#g5t)"/>
+              <path class="pulseLine" d="M0 54 L28 50 L56 56 L84 46 L112 52 L140 32 L168 38 L196 24 L224 28 L248 22" fill="none" stroke="#00C2A8" stroke-width="1.4"/>
+              <text x="6" y="80" font-family="JetBrains Mono" font-size="7.5" fill="#7A8A90">LATENCY P95</text>
+              <rect x="262" y="6" width="88" height="76" rx="5" fill="rgba(0,0,0,0.3)" stroke="rgba(255,255,255,0.05)"/>
+              <g font-family="JetBrains Mono" font-size="7.5">
+                <text x="270" y="24" fill="#7A8A90">RPS</text>    <text x="344" y="24" text-anchor="end" fill="#00FF85">12.4K</text>
+                <text x="270" y="40" fill="#7A8A90">P50</text>    <text x="344" y="40" text-anchor="end" fill="#00FF85">4ms</text>
+                <text x="270" y="56" fill="#7A8A90">P95</text>    <text x="344" y="56" text-anchor="end" fill="#00C2A8">11ms</text>
+                <text x="270" y="72" fill="#7A8A90">CACHE</text>  <text x="344" y="72" text-anchor="end" fill="#00FF85">94%</text>
+              </g>
+            </svg>
+          </div>
+          <h3>Production URL Shortener</h3>
+          <p>High-performance shortener with Redis caching, rate-limiting, and Grafana metrics.</p>
+          <div class="card-foot">
+            <div class="stack">GO <span class="sep">·</span> REDIS <span class="sep">·</span> PROMETHEUS</div>
+            <div class="status"><span class="ds"></span> LIVE</div>
+          </div>
+        </div>
+
+        <!-- 6: Tech/IT Support — Ticket Automator -->
+        <div class="card">
+          <div class="card-top">
+            <div class="tag"><span class="pip"></span> IT · LLM</div>
+            <div class="id">PRJ_006</div>
+          </div>
+          <div class="viz">
+            <svg viewBox="0 0 360 88">
+              <rect width="360" height="88" fill="rgba(0,0,0,0.2)"/>
+              <rect x="8" y="13" width="68" height="18" rx="3" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.10)"/>
+              <text x="42" y="20" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#E6F1F3">TICKET</text>
+              <text x="42" y="27" text-anchor="middle" font-family="JetBrains Mono" font-size="5" fill="#7A8A90">INCOMING</text>
+              <path d="M76 22 L100 22" stroke="rgba(255,255,255,0.18)" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+              <rect x="102" y="13" width="68" height="18" rx="3" fill="rgba(0,255,133,0.06)" stroke="#00FF85" stroke-opacity=".5" stroke-width=".8"/>
+              <text x="136" y="20" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#00FF85">LLM</text>
+              <text x="136" y="27" text-anchor="middle" font-family="JetBrains Mono" font-size="5" fill="#7A8A90">CLASSIFIER</text>
+              <path d="M170 17 L194 9"  stroke="rgba(255,80,80,0.5)"  stroke-width="0.8" fill="none" stroke-linecap="round"/>
+              <path d="M170 22 L194 22" stroke="rgba(255,196,23,0.5)" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+              <path d="M170 27 L194 35" stroke="rgba(0,255,133,0.5)"  stroke-width="0.8" fill="none" stroke-linecap="round"/>
+              <rect x="196" y="3"  width="42" height="12" rx="2" fill="rgba(255,80,80,0.08)"   stroke="rgba(255,80,80,0.4)"   stroke-width=".8"/>
+              <text x="217" y="12" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#FF5050">HIGH</text>
+              <rect x="196" y="17" width="42" height="12" rx="2" fill="rgba(255,196,23,0.08)"  stroke="rgba(255,196,23,0.4)"  stroke-width=".8"/>
+              <text x="217" y="26" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#FFC857">MED</text>
+              <rect x="196" y="29" width="42" height="12" rx="2" fill="rgba(0,255,133,0.06)"   stroke="rgba(0,255,133,0.3)"   stroke-width=".8"/>
+              <text x="217" y="38" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#00FF85">LOW</text>
+              <path d="M238 9  L260 18" stroke="rgba(0,194,168,0.4)" stroke-width="0.8" fill="none" stroke-dasharray="3 2"/>
+              <path d="M238 23 L260 23" stroke="rgba(0,194,168,0.4)" stroke-width="0.8" fill="none" stroke-dasharray="3 2"/>
+              <path d="M238 35 L260 28" stroke="rgba(0,194,168,0.4)" stroke-width="0.8" fill="none" stroke-dasharray="3 2"/>
+              <rect x="262" y="10" width="80" height="32" rx="4" fill="rgba(0,194,168,0.05)" stroke="#00C2A8" stroke-opacity=".4" stroke-width=".8"/>
+              <text x="302" y="23" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#00C2A8" font-weight="600">ZENDESK</text>
+              <text x="302" y="33" text-anchor="middle" font-family="JetBrains Mono" font-size="5" fill="#7A8A90">AUTO-ROUTE</text>
+              <text x="10" y="78" font-family="JetBrains Mono" font-size="7.5" fill="#7A8A90">AUTO-CLASSIFY · 340ms AVG · PROD</text>
+            </svg>
+          </div>
+          <h3>IT Ticket Automator</h3>
+          <p>LLM auto-categorizes, prioritizes, and routes IT support tickets in real time.</p>
+          <div class="card-foot">
+            <div class="stack">PYTHON <span class="sep">·</span> OPENAI <span class="sep">·</span> FASTAPI</div>
+            <div class="status"><span class="ds"></span> LIVE</div>
+          </div>
+        </div>
+
+        <!-- 7: Computer Science — Autonomous Research -->
+        <div class="card">
+          <div class="card-top">
+            <div class="tag"><span class="pip"></span> CS · RESEARCH</div>
+            <div class="id">PRJ_007</div>
+          </div>
+          <div class="viz">
+            <svg viewBox="0 0 360 88">
+              <rect width="360" height="88" fill="rgba(0,0,0,0.2)"/>
+              <g fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.10)">
+                <rect x="6"   y="30" width="56" height="22" rx="4"/>
+                <rect x="76"  y="30" width="56" height="22" rx="4"/>
+                <rect x="146" y="30" width="56" height="22" rx="4"/>
+                <rect x="216" y="30" width="62" height="22" rx="4"/>
+                <rect x="292" y="30" width="60" height="22" rx="4"/>
+              </g>
+              <g font-family="JetBrains Mono" font-size="6.5" font-weight="600" text-anchor="middle">
+                <text x="34"  y="44" fill="#00FF85">QUERY</text>
+                <text x="104" y="44" fill="#00FF85">SEARCH</text>
+                <text x="174" y="44" fill="#00FF85">ANALYZE</text>
+                <text x="247" y="44" fill="#00C2A8">SYNTH</text>
+                <text x="322" y="44" fill="#00C2A8">REPORT</text>
+              </g>
+              <g font-family="JetBrains Mono" font-size="5.5" fill="#4B5A60" text-anchor="middle">
+                <text x="34"  y="56">TAVILY</text>
+                <text x="104" y="56">WEB</text>
+                <text x="174" y="56">CLAUDE</text>
+                <text x="247" y="56">LANGGRAPH</text>
+                <text x="322" y="56">PDF</text>
+              </g>
+              <g stroke="#00FF85" stroke-width=".9" fill="none" stroke-linecap="round" opacity=".5">
+                <path d="M62 41 L74 41"/>
+                <path d="M132 41 L144 41"/>
+                <path d="M202 41 L214 41"/>
+              </g>
+              <path d="M278 41 L290 41" stroke="#00C2A8" stroke-width=".9" fill="none" stroke-linecap="round" opacity=".5"/>
+              <circle cx="174" cy="30" r="3.5" fill="#00FF85" opacity=".8"/>
+              <circle cx="174" cy="30" r="6"   fill="none" stroke="#00FF85" opacity=".25"/>
+              <text x="14" y="78" font-family="JetBrains Mono" font-size="7.5" fill="#7A8A90">SUPERVISOR PATTERN · CLAUDE 3.5 · REDIS</text>
+            </svg>
+          </div>
+          <h3>Autonomous Research System</h3>
+          <p>Supervisor-pattern multi-agent architecture managing collaborating specialist agents.</p>
+          <div class="card-foot">
+            <div class="stack">LANGGRAPH <span class="sep">·</span> CLAUDE 3.5 <span class="sep">·</span> REDIS</div>
+            <div class="status t"><span class="ds"></span> BUILDING</div>
+          </div>
+        </div>
+
+        <!-- 8: Help Desk — AI Support Bot -->
+        <div class="card">
+          <div class="card-top">
+            <div class="tag"><span class="pip"></span> HELPDESK · AI</div>
+            <div class="id">PRJ_008</div>
+          </div>
+          <div class="viz">
+            <svg viewBox="0 0 360 88">
+              <rect width="360" height="88" fill="rgba(0,0,0,0.2)"/>
+              <rect x="6" y="6" width="240" height="76" rx="8" fill="rgba(255,255,255,0.015)" stroke="rgba(255,255,255,0.07)"/>
+              <rect x="112" y="14" width="124" height="18" rx="4" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.10)" stroke-width=".7"/>
+              <text x="174" y="21" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#E6F1F3">My laptop won't connect</text>
+              <text x="174" y="29" text-anchor="middle" font-family="JetBrains Mono" font-size="5" fill="#4B5A60">USER</text>
+              <rect x="14" y="38" width="174" height="28" rx="4" fill="rgba(0,255,133,0.06)" stroke="#00FF85" stroke-opacity=".4" stroke-width=".7"/>
+              <text x="22" y="48" font-family="JetBrains Mono" font-size="5.5" fill="#00FF85">Try: Settings → Network → Reset</text>
+              <text x="22" y="58" font-family="JetBrains Mono" font-size="5.5" fill="#00FF85">90% match · KB doc #142</text>
+              <rect x="14" y="72" width="110" height="5" rx="2" fill="rgba(255,255,255,0.04)"/>
+              <rect x="14" y="72" width="99" height="5" rx="2" fill="#00FF85" opacity=".65"/>
+              <text x="128" y="77" font-family="JetBrains Mono" font-size="6" fill="#7A8A90">90%</text>
+              <rect x="256" y="12" width="92" height="64" rx="5" fill="rgba(0,0,0,0.3)" stroke="rgba(255,255,255,0.05)"/>
+              <g font-family="JetBrains Mono" font-size="7.5">
+                <text x="264" y="30" fill="#7A8A90">SOLVED</text>  <text x="342" y="30" text-anchor="end" fill="#00FF85">84%</text>
+                <text x="264" y="48" fill="#7A8A90">TICKETS</text> <text x="342" y="48" text-anchor="end" fill="#E6F1F3">1.2K</text>
+                <text x="264" y="64" fill="#7A8A90">ESCL</text>    <text x="342" y="64" text-anchor="end" fill="#00C2A8">16%</text>
+              </g>
+            </svg>
+          </div>
+          <h3>AI Self-Service IT Bot</h3>
+          <p>Chatbot using RAG for instant resolution with automatic ticket escalation fallback.</p>
+          <div class="card-foot">
+            <div class="stack">OPENAI <span class="sep">·</span> BOTPRESS <span class="sep">·</span> ZAPIER</div>
+            <div class="status t"><span class="ds"></span> BUILDING</div>
+          </div>
+        </div>
+
+        <!-- 9: AI — Multimodal RAG Enterprise -->
+        <div class="card">
+          <div class="card-top">
+            <div class="tag"><span class="pip"></span> AI · MULTIMODAL</div>
+            <div class="id">PRJ_009</div>
+          </div>
+          <div class="viz">
+            <svg viewBox="0 0 360 88">
+              <rect width="360" height="88" fill="rgba(0,0,0,0.2)"/>
+              <rect x="8" y="10" width="52" height="36" rx="4" fill="rgba(0,194,168,0.05)" stroke="#00C2A8" stroke-opacity=".4" stroke-width=".8"/>
+              <rect x="14" y="16" width="40" height="24" rx="2" fill="rgba(0,194,168,0.07)"/>
+              <circle cx="22" cy="24" r="4" fill="#00C2A8" opacity=".5"/>
+              <path d="M16 36 L26 26 L34 32 L40 24 L50 36 Z" fill="#00C2A8" opacity=".2"/>
+              <text x="34" y="56" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#00C2A8">IMAGE</text>
+              <rect x="8" y="60" width="52" height="20" rx="4" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.10)" stroke-width=".8"/>
+              <rect x="12" y="64" width="40" height="2" rx="1" fill="rgba(255,255,255,0.15)"/>
+              <rect x="12" y="69" width="32" height="2" rx="1" fill="rgba(255,255,255,0.10)"/>
+              <rect x="12" y="74" width="36" height="2" rx="1" fill="rgba(255,255,255,0.07)"/>
+              <path d="M62 28 L86 44" stroke="#00C2A8"            stroke-width="0.8" fill="none" opacity="0.5" stroke-linecap="round"/>
+              <path d="M62 70 L86 56" stroke="rgba(255,255,255,.2)" stroke-width="0.8" fill="none" opacity="0.5" stroke-linecap="round"/>
+              <rect x="88" y="30" width="60" height="28" rx="5" fill="rgba(0,194,168,0.05)" stroke="#00C2A8" stroke-opacity=".4" stroke-width=".8"/>
+              <text x="118" y="42" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#00C2A8" font-weight="600">EMBED</text>
+              <text x="118" y="50" text-anchor="middle" font-family="JetBrains Mono" font-size="5" fill="#7A8A90">MULTIMODAL</text>
+              <path d="M150 44 L172 44" stroke="#00C2A8" stroke-width="0.8" fill="none" opacity="0.5" stroke-linecap="round"/>
+              <rect x="174" y="30" width="58" height="28" rx="5" fill="rgba(0,255,133,0.05)" stroke="#00FF85" stroke-opacity=".4" stroke-width=".8"/>
+              <text x="203" y="42" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#00FF85" font-weight="600">PINECONE</text>
+              <text x="203" y="50" text-anchor="middle" font-family="JetBrains Mono" font-size="5" fill="#7A8A90">VECTOR DB</text>
+              <path d="M234 44 L256 44" stroke="#00FF85" stroke-width="0.8" fill="none" opacity="0.5" stroke-linecap="round"/>
+              <rect x="258" y="22" width="90" height="44" rx="5" fill="rgba(0,255,133,0.06)" stroke="#00FF85" stroke-opacity=".5" stroke-width=".8"/>
+              <text x="303" y="36" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#00FF85" font-weight="600">CLAUDE 3.5</text>
+              <rect x="266" y="42" width="74" height="14" rx="2" fill="rgba(0,255,133,0.06)" stroke="#00FF85" stroke-opacity=".3"/>
+              <text x="303" y="52" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" fill="#00FF85">[CITED ANSWER]</text>
+              <text x="10" y="82" font-family="JetBrains Mono" font-size="7.5" fill="#7A8A90">LLAMAINDEX · PINECONE · CLAUDE 3.5 SONNET</text>
+            </svg>
+          </div>
+          <h3>Multimodal RAG Enterprise</h3>
+          <p>RAG pipeline ingesting text and images with cited answers from any document type.</p>
+          <div class="card-foot">
+            <div class="stack">LLAMAINDEX <span class="sep">·</span> PINECONE <span class="sep">·</span> CLAUDE</div>
+            <div class="status m"><span class="ds"></span> QUEUED</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="foot-l">
+      <div class="lab">POWERED BY</div>
+      <div class="foot-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="11" r="2.5"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><path d="M14 20c0-2 2-3.5 4-3.5s4 1.5 4 3.5"/></svg>
+        REAL PROJECTS
+      </div>
+      <div class="foot-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M4 9h16"/></svg>
+        REAL DATA
+      </div>
+      <div class="foot-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polygon points="10,8 16,12 10,16" fill="currentColor"/></svg>
+        REAL EXPERIENCE
+      </div>
+    </div>
+    <div class="foot-r">
+      <div class="tag2">
+        <b>BUILT FOR STUDENTS.</b>
+        DESIGNED FOR THE REAL WORLD.
+      </div>
+      <a href="app.html" class="arr">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const cl = document.getElementById('clock');
+  function tick(){
+    const d = new Date();
+    const hh = String(d.getHours()).padStart(2,'0');
+    const mm = String(d.getMinutes()).padStart(2,'0');
+    const ss = String(d.getSeconds()).padStart(2,'0');
+    if(cl) cl.innerHTML = 'SYS · <b>'+hh+':'+mm+':'+ss+'</b> EST';
+  }
+  tick(); setInterval(tick, 1000);
+</script>
+</body>
+</html>
