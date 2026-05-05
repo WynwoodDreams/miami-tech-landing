@@ -250,6 +250,7 @@
   .stat .sub{ font-size: 11.5px; color: var(--muted); }
 
   .ctas{ margin-top: 18px; display:flex; gap: 10px; }
+  .ctas .btn.primary{ justify-content: center; }
   .btn{
     flex: 1; display:inline-flex; align-items:center; justify-content:space-between; gap: 10px;
     padding: 12px 14px; border-radius: 10px;
@@ -419,9 +420,7 @@
       <div class="pill"><span class="dot"></span> JOB STATS · MIA</div>
       <nav class="nav">
         <a href="#" class="active">PROJECTS</a>
-        <a href="#">TRACKS</a>
-        <a href="#">PLACEMENTS</a>
-        <a href="app.html">GUIDE</a>
+        <a href="https://github.com/WynwoodDreams/4Projects" target="_blank">FULL GUIDE</a>
       </nav>
     </div>
     <div class="topbar-r">
@@ -519,13 +518,9 @@
       </div>
 
       <div class="ctas">
-        <a class="btn primary" href="app.html">
+        <a class="btn primary" href="#projects">
           <span>EXPLORE THE BUILD PATH</span>
           <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
-        <a class="btn ghost" href="#">
-          <span>VIEW ALL TRACKS</span>
-          <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
         </a>
       </div>
 
@@ -539,20 +534,13 @@
     <!-- RIGHT — DASHBOARD -->
     <div class="dash">
 
-      <div class="dash-bar">
+      <div class="dash-bar" id="projects">
         <div class="crumbs">
           <span>WORKSPACE</span><span class="slash">/</span><span>COHORT-26</span><span class="slash">/</span><b>PROJECTS</b>
           <span class="slash">·</span><span style="color:var(--green)">9 FEATURED</span>
         </div>
         <div class="meta-r">
           <div class="legend"><span class="lg-d g"></span> LIVE <span class="lg-d t"></span> BUILDING <span class="lg-d m"></span> QUEUED</div>
-          <div class="seg">
-            <button class="on g">ALL · 9</button>
-            <button>AI</button>
-            <button>DATA</button>
-            <button>CLOUD</button>
-            <button>CYBER</button>
-          </div>
         </div>
       </div>
 
